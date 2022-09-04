@@ -86,7 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
         .then(res => res.json())
         .then(data => {
             const dogContainer = document.getElementById("dog-image-container");
-            
+
             data.message.map(dog => {
                 const img = document.createElement("img");
                 img.src = dog;
@@ -98,9 +98,32 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
     fetch("https://dog.ceo/api/breeds/list/all")
-        .then(res = res.json())
+        .then(res => res.json())
         .then(data => {
+            const selectBtn = document.getElementById("breed-dropdown")
             const breedsUl = document.getElementById("dog-breeds");
+            const breedArray = Object.keys(data.message)
+            breedArray.map(breed => {
+                const breedLi = document.createElement("li");
+                breedLi.innerHTML = breed;
+                breedLi.style.cursor = "pointer";
+                breedLi.addEventListener("click", () => breedLi.style.color = "red")
 
+                breedsUl.appendChild(breedLi);
+            })
+            selectBtn.addEventListener("change", () => {
+                console.log(selectBtn.value)
+                let selectBreeds = breedArray.filter(filtItem => filtItem.charAt(0) == selectBtn.value)
+                breedsUl.innerHTML = '';
+                selectBreeds.map(select => {
+                    const breedLi = document.createElement("li");
+                    breedLi.innerHTML = select;
+                    breedLi.style.cursor = "pointer";
+                    breedLi.addEventListener("click", () => breedLi.style.color = "red")
+                    breedsUl.appendChild(breedLi);
+                })
+            })
         })
 })
+
+
